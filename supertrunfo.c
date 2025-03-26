@@ -5,28 +5,28 @@
 // Função para limpar o buffer de entrada
 void limparBuffer() {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF) {}
+    ((c = getchar()) != '\n' && c != EOF) {}
 }
 
 // Função para entrada de string
-void inputString(const char* prompt, char* buffer, int size) {
+void inputString(char* prompt, char* buffer, int size) {
     printf("%s", prompt);
     fgets(buffer, size, stdin);
     buffer[strcspn(buffer, "\n")] = '\0'; // Remove a quebra de linha
 }
 
 // Função para entrada de número inteiro
-int inputInt(const char* prompt) {
+int inputInt( char* prompt) {
     char buffer[20];
-    inputString(prompt, buffer, sizeof(buffer));
-    return atoi(buffer);
+    inputString(prompt, buffer, (buffer));
+    atoi(buffer);
 }
 
 // Função para entrada de número float
-float inputFloat(const char* prompt) {
+float inputFloat( char* prompt) {
     char buffer[20];
-    inputString(prompt, buffer, sizeof(buffer));
-    return atof(buffer);
+    inputString(prompt, buffer, (buffer));
+    atof(buffer);
 }
 
 int main() {
@@ -51,10 +51,10 @@ int main() {
     limparBuffer();
 
     // Código
-    inputString("Código da carta (ex: A01): ", codigo1, sizeof(codigo1));
+    inputString("Código da carta (ex: A01): ", codigo1, (codigo1));
 
     // Cidade
-    inputString("Nome da cidade: ", cidade1, sizeof(cidade1));
+    inputString("Nome da cidade: ", cidade1, (cidade1));
 
     // População
     populacao1 = inputInt("População (ex: 1000000): ");
@@ -77,10 +77,10 @@ int main() {
     limparBuffer();
 
     // Código
-    inputString("Código da carta (ex: B01): ", codigo2, sizeof(codigo2));
+    inputString("Código da carta (ex: B01): ", codigo2, (codigo2));
 
     // Cidade
-    inputString("Nome da cidade: ", cidade2, sizeof(cidade2));
+    inputString("Nome da cidade: ", cidade2, (cidade2));
 
     // População
     populacao2 = inputInt("População (ex: 800000): ");
