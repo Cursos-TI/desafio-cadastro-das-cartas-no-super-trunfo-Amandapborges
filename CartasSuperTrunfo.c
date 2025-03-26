@@ -2,7 +2,7 @@
 #include <string.h>
 
 // Estrutura para representar uma carta do Super Trunfo
-typedef struct {
+ {
     char estado[3];            // Sigla do estado (ex: SP)
     char codigo[10];           // Código da carta
     char cidade[50];           // Nome da cidade
@@ -15,7 +15,7 @@ typedef struct {
 } Carta;
 
 // Função para cadastrar uma carta
-void cadastrarCarta(Carta *carta) {
+void (Carta *carta) {
     printf("Cadastro da Carta:\n");
     
     printf("Estado (sigla): ");
@@ -59,7 +59,7 @@ void exibirCarta(Carta carta) {
 }
 
 // Função para comparar duas cartas com base em um atributo escolhido
-void compararCartas(Carta c1, Carta c2) {
+void (Carta c1, Carta c2) {
     // Definindo o atributo para comparação (altere conforme necessário)
     // Opções: populacao, area, pib, densidade, pib_per_capita
     char atributo[] = "populacao";  // Atributo escolhido para comparação
