@@ -1,94 +1,151 @@
-# Desafio Super Trunfo - Países - Cadastro das Cartas - Atualizado: 21/02
+class CartaPais:
+    def __init__(self, nome, populacao, area, pib, pontos_turisticos):
+        self.nome = nome
+        self.populacao = populacao
+        self.area = area
+        self.pib = pib
+        self.pontos_turisticos = pontos_turisticos
+        self.densidade_demografica = populacao / area if area > 0 else 0
 
-Bem-vindo ao desafio "Super Trunfo - Países"! No jogo Super Trunfo, os jogadores comparam os atributos das cartas para determinar a mais forte. O tema deste Super Trunfo é "Países", onde você comparará os atributos das cidades.
+def criar_cartas():
+    cartas = [
+        CartaPais("Brasil", 213993437, 8515767.049, 1.445, 21),
+        CartaPais("Estados Unidos", 331002651, 9833517.0, 20.94, 50),
+        CartaPais("Japão", 126476461, 377975.0, 5.06, 35),
+        CartaPais("Alemanha", 83783942, 357022.0, 3.85, 28),
+        CartaPais("Austrália", 25499884, 7692024.0, 1.39, 18)
+    ]
+    return cartas
 
-A empresa MateCheck contratou você para desenvolver a parte inicial do jogo, que consiste no cadastro das cartas.
+def exibir_carta(carta):
+    print(f"\nPaís: {carta.nome}")
+    print(f"1. População: {carta.populacao:,} habitantes")
+    print(f"2. Área: {carta.area:,.2f} km²")
+    print(f"3. PIB: US${carta.pib:,.2f} trilhões")
+    print(f"4. Pontos Turísticos: {carta.pontos_turisticos}")
+    print(f"5. Densidade Demográfica: {carta.densidade_demografica:,.2f} hab/km²")
 
-O desafio está dividido em três níveis: Novato, Aventureiro e Mestre, com cada nível adicionando mais complexidade ao anterior.  **Você deve escolher qual desafio quer realizar.**
+def comparar_cartas(carta1, carta2, atributo):
+    if atributo == 1:  # População
+        valor1, valor2 = carta1.populacao, carta2.populacao
+    elif atributo == 2:  # Área
+        valor1, valor2 = carta1.area, carta2.area
+    elif atributo == 3:  # PIB
+        valor1, valor2 = carta1.pib, carta2.pib
+    elif atributo == 4:  # Pontos Turísticos
+        valor1, valor2 = carta1.pontos_turisticos, carta2.pontos_turisticos
+    elif atributo == 5:  # Densidade Demográfica
+        valor1, valor2 = carta1.densidade_demografica, carta2.densidade_demografica
+    
+    # Determina o vencedor com regra especial para densidade
+    if atributo == 5:  # Para densidade, menor valor vence
+        if valor1 < valor2:
+            return carta1
+        elif valor2 < valor1:
+            return carta2
+        else:
+            return None  # Empate
+    else:  # Para outros atributos, maior valor vence
+        if valor1 > valor2:
+            return carta1
+        elif valor2 > valor1:
+            return carta2
+        else:
+            return None  # Empate
 
-🚨 **Atenção:** O nível Novato do desafio é focado apenas no cadastro das cartas, utilizando as funções `scanf` para ler os dados e `printf` para exibi-los.
+def exibir_resultado(carta1, carta2, atributo, vencedor):
+    atributos_nomes = {
+        1: "População",
+        2: "Área",
+        3: "PIB",
+        4: "Pontos Turísticos",
+        5: "Densidade Demográfica"
+    }
+    
+    print("\n=== RESULTADO DA COMPARAÇÃO ===")
+    print(f"País 1: {carta1.nome} vs País 2: {carta2.nome}")
+    print(f"Atributo comparado: {atributos_nomes[atributo]}")
+    
+    if atributo == 1:
+        print(f"Valores: {carta1.populacao:,} vs {carta2.populacao:,}")
+    elif atributo == 2:
+        print(f"Valores: {carta1.area:,.2f} vs {carta2.area:,.2f}")
+    elif atributo == 3:
+        print(f"Valores: {carta1.pib:,.2f} vs {carta2.pib:,.2f}")
+    elif atributo == 4:
+        print(f"Valores: {carta1.pontos_turisticos} vs {carta2.pontos_turisticos}")
+    elif atributo == 5:
+        print(f"Valores: {carta1.densidade_demografica:,.2f} vs {carta2.densidade_demografica:,.2f}")
+    
+    if vencedor:
+        print(f"\nVencedor: {vencedor.nome}!")
+    else:
+        print("\nEmpate!")
 
-## 🎮 Nível Novato: Cadastro Básico
+def main():
+    cartas = criar_cartas()
+    
+    print("=== SUPER TRUNFO - PAÍSES ===")
+    print("Escolha duas cartas para comparar:")
+    
+    for i, carta in enumerate(cartas, 1):
+        print(f"{i}. {carta.nome}")
+    
+    # Selecionar cartas
+    while True:
+        try:
+            escolha1 = int(input("\nDigite o número da primeira carta: ")) - 1
+            escolha2 = int(input("Digite o número da segunda carta: ")) - 1
+            
+            if 0 <= escolha1 < len(cartas) and 0 <= escolha2 < len(cartas) and escolha1 != escolha2:
+                break
+            else:
+                print("Escolha inválida. Por favor, selecione números de cartas diferentes e dentro do intervalo.")
+        except ValueError:
+            print("Por favor, digite um número válido.")
+    
+    carta1 = cartas[escolha1]
+    carta2 = cartas[escolha2]
+    
+    # Exibir cartas selecionadas
+    print("\n=== CARTAS SELECIONADAS ===")
+    exibir_carta(carta1)
+    exibir_carta(carta2)
+    
+    # Menu de atributos
+    while True:
+        print("\n=== MENU DE ATRIBUTOS ===")
+        print("1. População")
+        print("2. Área")
+        print("3. PIB")
+        print("4. Pontos Turísticos")
+        print("5. Densidade Demográfica")
+        print("0. Sair")
+        
+        try:
+            opcao = int(input("\nEscolha o atributo para comparar (1-5) ou 0 para sair: "))
+            
+            if opcao == 0:
+                print("Obrigado por jogar!")
+                return
+            elif 1 <= opcao <= 5:
+                vencedor = comparar_cartas(carta1, carta2, opcao)
+                exibir_resultado(carta1, carta2, opcao, vencedor)
+                
+                # Perguntar se quer comparar novamente
+                while True:
+                    continuar = input("\nDeseja comparar com outro atributo? (s/n): ").lower()
+                    if continuar in ['s', 'n']:
+                        break
+                    print("Por favor, digite 's' para sim ou 'n' para não.")
+                
+                if continuar == 'n':
+                    print("Obrigado por jogar!")
+                    return
+            else:
+                print("Opção inválida. Por favor, escolha um número entre 1 e 5.")
+        except ValueError:
+            print("Por favor, digite um número válido.")
 
-No nível Novato, você iniciará criando o sistema básico do jogo Super Trunfo com o tema "Países". As cartas serão divididas por estados, cada um com quatro cidades.  Imagine um país dividido em oito estados (A a H), e cada estado com quatro cidades (1 a 4).  A combinação forma o código da carta (ex: A01, B02).
-
-🚩 **Objetivo:** Criar um programa em C que cadastra **duas** cartas com os seguintes atributos:
-
-*   População (`int`)
-*   Área (`float`)
-*   PIB (`float`)
-*   Número de pontos turísticos (`int`)
-
-⚙️ **Funcionalidades do Sistema:**
-
-*   O sistema permitirá ao usuário cadastrar os dados de **duas** cartas manualmente via terminal.
-*   Após o cadastro, o sistema exibirá os dados de cada cidade de forma organizada.
-
-📥 **Entrada** e 📤 **Saída de Dados:**
-
-*   O usuário insere os dados de cada carta interativamente via `scanf`.
-*   O programa exibe os dados cadastrados usando `printf`, com cada atributo em uma nova linha.
-
-**Simplificações para o Nível Novato:**
-
-*   Cadastre apenas **duas** cartas.
-*   Concentre-se na leitura, armazenamento e exibição. Não implemente comparações ou outros recursos.
-*   **Não use** laços (`for`, `while`) ou condicionais (`if`, `else`).
-
-
-## 🛡️ Nível Aventureiro: Cálculo de Atributos
-
-No nível Aventureiro, você expandirá o sistema para incluir o cálculo de dois novos atributos: Densidade Populacional e PIB per Capita.
-
-🆕 **Diferença em relação ao Nível Novato:**
-
-*   **Novos Atributos:**
-    *   Densidade Populacional: População / Área (`float`)
-    *   PIB per Capita: PIB / População (`float`)
-
-⚙️ **Funcionalidades do Sistema:**
-
-*   O sistema calculará automaticamente a Densidade Populacional e o PIB per Capita.
-*   Os novos atributos serão exibidos junto com os demais.
-
-📥 **Entrada** e 📤 **Saída de Dados:**
-
-*   Mesma entrada do nível Novato.
-*   A saída exibirá também os atributos calculados.
-
-**Simplificações para o Nível Intermediário:**
-
-*   Continue cadastrando apenas **duas** cartas.
-*   Continue **sem usar** laços (`for`, `while`) ou condicionais (`if`, `else`).
-
-
-
-## 🏆 Nível Mestre: Comparação e Super Poder
-
-No nível Mestre, você implementará a comparação entre duas cartas e o cálculo do "Super Poder".
-
-🆕 **Diferença em relação ao Nível Aventureiro:**
-
-*   **Comparação de Cartas:** O usuário poderá comparar as duas cartas.
-*   **Super Poder:** Soma de todos os atributos (inclusive os calculados), com a densidade populacional *invertida* antes da soma (1/densidade).  Tipo: `float`.
-
-⚙️ **Funcionalidades do Sistema:**
-
-*   Comparação atributo a atributo, mostrando qual carta venceu (1 se a Carta 1 vence, 0 se a Carta 2 vence).
-*   Para Densidade Populacional, vence a carta com o *menor* valor.
-*   Para os demais atributos (e o Super Poder), vence a carta com o *maior* valor.
-
-📥 **Entrada** e 📤 **Saída de Dados:**
-
-*   Mesma entrada dos níveis anteriores, mas a População agora é `unsigned long int`.
-*   A saída mostrará o resultado da comparação para cada atributo e o Super Poder.
-
-**Observação:**  Preste atenção à conversão de tipos ao calcular o Super Poder!
-
-
-## 🏁 Conclusão
-
-Ao concluir qualquer um dos níveis, você terá dado um passo importante no desenvolvimento do Super Trunfo - Países. Boa sorte e divirta-se programando!
-
-Equipe de Ensino - MateCheck
-content_copy
+if __name__ == "__main__":
+    main()
